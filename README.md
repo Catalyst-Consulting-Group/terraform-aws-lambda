@@ -17,6 +17,8 @@ module "foobar_lambda" {
 
   function_name = "foobar-lambda"
   runtime       = "provided.al2"
+  
+  description = "Foobars the bucket"
 
   environment = {
     BUCKET_NAME = "foobar-bucket"
