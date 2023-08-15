@@ -17,6 +17,14 @@ resource "aws_lambda_function" "this" {
     }
   }
 
+  dynamic "vpc_config" {
+    for_each = var.vpc_config == null ? [] : [true]
+    content {
+      subnet_ids         = var.vpc_config.subnet_ids
+      security_group_ids = var.vpc_config.security_group_ids
+    }
+  }
+
   depends_on = [
     aws_iam_role.this,
     aws_iam_role_policy_attachment.basic_execution_role_policy_attachment,

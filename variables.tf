@@ -45,6 +45,16 @@ variable "environment" {
   default     = {}
 }
 
+variable "vpc_config" {
+  description = "(Optional, Default: null) An object containing subnet and security group IDs for running in a VPC"
+  type        = object({
+    subnet_ids         = list(string)
+    security_group_ids = list(string)
+  })
+  nullable = true
+  default  = null
+}
+
 variable "policy_arns" {
   description = "(Optional, Default: []) A list of policy ARNs to attach to the lambda execution role"
   type        = list(string)
