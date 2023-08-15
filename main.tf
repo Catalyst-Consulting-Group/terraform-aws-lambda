@@ -11,11 +11,22 @@ resource "aws_lambda_function" "this" {
   timeout     = var.timeout
 
   dynamic "environment" {
-    for_each = length(var.environment) > 0 ? [1] : []
+    for_each = length(var.environment) == 0 ? [] : [true]
     content {
       variables = var.environment
     }
   }
+
+  depends_on = [
+    aws_iam_role.this,
+    aws_iam_role_policy_attachment.basic_execution_role_policy_attachment,
+    aws_iam_role_policy_attachment.extra_role_policy_attachment,
+
+    // Depending on the log group will prevent a potential race condition whereby
+    // AWS will create it before Terraform does. It's unlikely to happen with the dummy
+    // lambda setup, but it doesn't hurt to be careful nevertheless.
+    aws_cloudwatch_log_group.this,
+  ]
 }
 
 resource "aws_iam_role" "this" {
