@@ -36,6 +36,15 @@ resource "aws_lambda_function" "this" {
     // lambda setup, but it doesn't hurt to be careful nevertheless.
     aws_cloudwatch_log_group.this,
   ]
+
+  lifecycle {
+    ignore_changes = [
+      // These are expected to change outside of Terraform
+      filename,
+      source_code_hash,
+      last_modified,
+    ]
+  }
 }
 
 // The lambda will automatically use this log group by naming convention
