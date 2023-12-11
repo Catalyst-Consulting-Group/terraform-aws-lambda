@@ -42,7 +42,6 @@ resource "aws_lambda_function" "this" {
       // These are expected to change outside of Terraform
       filename,
       source_code_hash,
-      last_modified,
     ]
   }
 }
