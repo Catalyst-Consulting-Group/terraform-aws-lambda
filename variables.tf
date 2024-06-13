@@ -24,6 +24,13 @@ variable "handler" {
   default     = "bootstrap"
 }
 
+variable "layers" {
+  description = "(Optional, Default: []) List of Lambda Layer Version ARNs (maximum of 5) to attach to your Lambda Function"
+  type        = list(string)
+  nullable    = false
+  default     = []
+}
+
 variable "memory_size" {
   description = "(Optional, Default: 128) Amount of memory in MB your Lambda Function can use at runtime"
   type        = number
@@ -47,7 +54,7 @@ variable "environment" {
 
 variable "vpc_config" {
   description = "(Optional, Default: null) An object containing subnet and security group IDs for running in a VPC"
-  type        = object({
+  type = object({
     subnet_ids         = list(string)
     security_group_ids = list(string)
   })

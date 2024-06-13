@@ -7,6 +7,8 @@ resource "aws_lambda_function" "this" {
   filename      = "${path.module}/dummy.zip"
   package_type  = "Zip"
 
+  layers = var.layers
+
   memory_size = var.memory_size
   timeout     = var.timeout
 
