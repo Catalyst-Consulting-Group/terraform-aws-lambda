@@ -5,7 +5,7 @@ data "aws_lambda_function" "lambda" {
 resource "aws_cloudwatch_event_rule" "this" {
   name                = var.function_name
   schedule_expression = var.schedule_expression
-  is_enabled          = var.is_enabled
+  state               = var.is_enabled ? "ENABLED" : "DISABLED"
 }
 
 resource "aws_cloudwatch_event_target" "this" {
