@@ -24,6 +24,34 @@ variable "handler" {
   default     = "bootstrap"
 }
 
+variable "image_uri" {
+  description = "(Optional, Default: null) The URI of a container image in ECR. Conflicts with s3_bucket."
+  type        = string
+  nullable    = true
+  default     = null
+}
+
+variable "s3_bucket" {
+  description = "(Optional, Default: null) The S3 bucket holding the function's deployment package. Conflicts with image_uri."
+  type        = string
+  nullable    = true
+  default     = null
+}
+
+variable "s3_key" {
+  description = "(Optional, Default: null) The S3 key of an object in the deployment bucket"
+  type        = string
+  nullable    = true
+  default     = null
+}
+
+variable "s3_object_version" {
+  description = "(Optional, Default: null) The object version of the deployment package"
+  type        = string
+  nullable    = true
+  default     = null
+}
+
 variable "layers" {
   description = "(Optional, Default: []) List of Lambda Layer Version ARNs (maximum of 5) to attach to your Lambda Function"
   type        = list(string)

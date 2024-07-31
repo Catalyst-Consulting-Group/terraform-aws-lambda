@@ -4,8 +4,16 @@ resource "aws_lambda_function" "this" {
   runtime       = var.runtime
   handler       = var.handler
   role          = aws_iam_role.this.arn
-  filename      = "${path.module}/dummy.zip"
-  package_type  = "Zip"
+
+  package_type = var.image_uri != null ? "Image" : "Zip"
+
+  filename = var.image_uri == null && var.s3_bucket == null ? "${path.module}/dummy.zip" : null
+
+  image_uri = var.image_uri
+
+  s3_bucket         = var.s3_bucket
+  s3_key            = var.s3_key
+  s3_object_version = var.s3_object_version
 
   layers = var.layers
 
