@@ -1,15 +1,18 @@
+locals {
+  use_image = var.image_uri != null
+  use_s3    = var.s3_bucket != null
+}
+
 resource "aws_lambda_function" "this" {
   function_name = var.function_name
   description   = var.description
-  runtime       = var.runtime
-  handler       = var.handler
+  runtime       = local.use_image ? null : var.runtime
+  handler       = local.use_image ? null : coalesce(var.handler, "bootstrap")
   role          = aws_iam_role.this.arn
 
-  package_type = var.image_uri != null ? "Image" : "Zip"
-
-  filename = var.image_uri == null && var.s3_bucket == null ? "${path.module}/dummy.zip" : null
-
-  image_uri = var.image_uri
+  package_type = local.use_image ? "Image" : "Zip"
+  filename     = (local.use_image || local.use_s3) ? null : "${path.module}/dummy.zip"
+  image_uri    = var.image_uri
 
   s3_bucket         = var.s3_bucket
   s3_key            = var.s3_key

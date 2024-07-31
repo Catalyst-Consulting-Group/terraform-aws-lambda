@@ -12,16 +12,17 @@ variable "description" {
 }
 
 variable "runtime" {
-  description = "(Required) Identifier of the function's runtime"
+  description = "(Conditional) Identifier of the function's runtime. Required unless image_uri is specified."
   type        = string
-  nullable    = false
+  nullable    = true
+  default     = null
 }
 
 variable "handler" {
-  description = "(Optional, Default: 'bootstrap') Function entrypoint in your code"
+  description = "(Conditional) Function entrypoint in your code. Required unless image_uri is specified."
   type        = string
-  nullable    = false
-  default     = "bootstrap"
+  nullable    = true
+  default     = null
 }
 
 variable "image_uri" {
