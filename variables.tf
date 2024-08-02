@@ -35,8 +35,8 @@ variable "image_uri" {
 variable "image_config" {
   description = "(Optional, Default: null) Container image configuration values that override the values in the container image Dockerfile"
   type = object({
-    command           = optional(string)
-    entry_point       = optional(string)
+    command           = optional(list(string))
+    entry_point       = optional(list(string))
     working_directory = optional(string)
   })
   nullable = true
