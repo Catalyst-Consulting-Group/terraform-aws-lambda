@@ -6,9 +6,13 @@ locals {
 resource "aws_lambda_function" "this" {
   function_name = var.function_name
   description   = var.description
+
+  role = aws_iam_role.this.arn
+
   runtime       = local.use_image ? null : var.runtime
-  handler       = local.use_image ? null : coalesce(var.handler, "bootstrap")
-  role          = aws_iam_role.this.arn
+  architectures = var.architectures
+
+  handler = local.use_image ? null : coalesce(var.handler, "bootstrap")
 
   package_type = local.use_image ? "Image" : "Zip"
   filename     = (local.use_image || local.use_s3) ? null : "${path.module}/dummy.zip"

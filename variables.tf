@@ -18,6 +18,13 @@ variable "runtime" {
   default     = null
 }
 
+variable "architectures" {
+  description = "(Optional, Default: [\"x86_64\"]) The list of architectures supported by the function"
+  type        = list(string)
+  nullable    = false
+  default     = ["x86_64"]
+}
+
 variable "handler" {
   description = "(Conditional) Function entrypoint in your code. Required unless image_uri is specified."
   type        = string
