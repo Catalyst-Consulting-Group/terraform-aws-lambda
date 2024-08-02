@@ -32,6 +32,17 @@ variable "image_uri" {
   default     = null
 }
 
+variable "image_config" {
+  description = "(Optional, Default: null) Container image configuration values that override the values in the container image Dockerfile"
+  type = object({
+    command           = optional(string)
+    entry_point       = optional(string)
+    working_directory = optional(string)
+  })
+  nullable = true
+  default  = null
+}
+
 variable "s3_bucket" {
   description = "(Optional, Default: null) The S3 bucket holding the function's deployment package. Conflicts with image_uri."
   type        = string

@@ -14,6 +14,15 @@ resource "aws_lambda_function" "this" {
   filename     = (local.use_image || local.use_s3) ? null : "${path.module}/dummy.zip"
   image_uri    = var.image_uri
 
+  dynamic "image_config" {
+    for_each = var.image_config == null ? [] : [true]
+    content {
+      command           = try(var.image_config.command, null)
+      entry_point       = try(var.image_config.entry_point, null)
+      working_directory = try(var.image_config.working_directory, null)
+    }
+  }
+
   s3_bucket         = var.s3_bucket
   s3_key            = var.s3_key
   s3_object_version = var.s3_object_version
