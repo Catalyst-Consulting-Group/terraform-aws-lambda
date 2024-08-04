@@ -122,3 +122,17 @@ variable "log_retention_in_days" {
   nullable    = false
   default     = 3
 }
+
+variable "iam_role_tags" {
+  description = "(Optional, Default: {}) A map of tags to apply to the IAM role"
+  type        = map(string)
+  nullable    = false
+  default     = {}
+}
+
+variable "tags" {
+  description = "(Optional, Default: {}) A map of tags to apply to the lambda function"
+  type        = map(string)
+  nullable    = false
+  default     = {}
+}

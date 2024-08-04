@@ -63,6 +63,8 @@ resource "aws_lambda_function" "this" {
     aws_cloudwatch_log_group.this,
   ]
 
+  tags = var.tags
+
   lifecycle {
     ignore_changes = [
       // These are expected to change outside of Terraform
