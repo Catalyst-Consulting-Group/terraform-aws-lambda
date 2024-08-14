@@ -70,6 +70,10 @@ resource "aws_lambda_function" "this" {
       // These are expected to change outside of Terraform
       filename,
       source_code_hash,
+      s3_bucket,
+      s3_key,
+      s3_object_version,
+      image_uri,
     ]
   }
 }
