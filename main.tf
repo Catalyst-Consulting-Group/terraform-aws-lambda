@@ -92,8 +92,8 @@ resource "aws_lambda_permission" "current_version_triggers" {
 
   region = var.region
 
-  function_name = aws_lambda_function.this[0].function_name
-  qualifier     = aws_lambda_function.this[0].version
+  function_name = aws_lambda_function.this.function_name
+  qualifier     = aws_lambda_function.this.version
 
   statement_id_prefix    = try(each.value.statement_id, each.key)
   action                 = try(each.value.action, "lambda:InvokeFunction")
@@ -115,7 +115,7 @@ resource "aws_lambda_permission" "unqualified_alias_triggers" {
 
   region = var.region
 
-  function_name = aws_lambda_function.this[0].function_name
+  function_name = aws_lambda_function.this.function_name
 
   statement_id_prefix    = try(each.value.statement_id, each.key)
   action                 = try(each.value.action, "lambda:InvokeFunction")
