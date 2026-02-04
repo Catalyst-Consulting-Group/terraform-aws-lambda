@@ -4,6 +4,12 @@ variable "function_name" {
   nullable    = false
 }
 
+variable "region" {
+  description = "Region where the resource(s) will be managed. Defaults to the region set in the provider configuration"
+  type        = string
+  default     = null
+}
+
 variable "description" {
   description = "(Optional) Description of what your Lambda Function does"
   type        = string
@@ -127,6 +133,12 @@ variable "iam_role_tags" {
   description = "(Optional, Default: {}) A map of tags to apply to the IAM role"
   type        = map(string)
   nullable    = false
+  default     = {}
+}
+
+variable "event_source_mapping" {
+  description = "Map of event source mapping"
+  type        = any
   default     = {}
 }
 
