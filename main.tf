@@ -85,6 +85,53 @@ resource "aws_cloudwatch_log_group" "this" {
   retention_in_days = var.log_retention_in_days
 }
 
+// Allowed Triggers
+
+resource "aws_lambda_permission" "current_version_triggers" {
+  for_each = { for k, v in var.allowed_triggers : k => v if var.create_current_version_allowed_triggers }
+
+  region = var.region
+
+  function_name = aws_lambda_function.this[0].function_name
+  qualifier     = aws_lambda_function.this[0].version
+
+  statement_id_prefix    = try(each.value.statement_id, each.key)
+  action                 = try(each.value.action, "lambda:InvokeFunction")
+  principal              = try(each.value.principal, format("%s.amazonaws.com", try(each.value.service, "")))
+  principal_org_id       = try(each.value.principal_org_id, null)
+  source_arn             = try(each.value.source_arn, null)
+  source_account         = try(each.value.source_account, null)
+  event_source_token     = try(each.value.event_source_token, null)
+  function_url_auth_type = try(each.value.function_url_auth_type, null)
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# Error: Error adding new Lambda Permission for lambda: InvalidParameterValueException: We currently do not support adding policies for $LATEST.
+resource "aws_lambda_permission" "unqualified_alias_triggers" {
+  for_each = { for k, v in var.allowed_triggers : k => v if var.create_unqualified_alias_allowed_triggers }
+
+  region = var.region
+
+  function_name = aws_lambda_function.this[0].function_name
+
+  statement_id_prefix    = try(each.value.statement_id, each.key)
+  action                 = try(each.value.action, "lambda:InvokeFunction")
+  principal              = try(each.value.principal, format("%s.amazonaws.com", try(each.value.service, "")))
+  principal_org_id       = try(each.value.principal_org_id, null)
+  source_arn             = try(each.value.source_arn, null)
+  source_account         = try(each.value.source_account, null)
+  event_source_token     = try(each.value.event_source_token, null)
+  function_url_auth_type = try(each.value.function_url_auth_type, null)
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+// Event Source Mapping
 resource "aws_lambda_event_source_mapping" "this" {
   for_each = var.event_source_mapping
 
