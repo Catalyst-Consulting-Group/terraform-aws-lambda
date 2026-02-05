@@ -4,6 +4,12 @@ variable "function_name" {
   nullable    = false
 }
 
+variable "region" {
+  description = "Region where the resource(s) will be managed. Defaults to the region set in the provider configuration"
+  type        = string
+  default     = null
+}
+
 variable "description" {
   description = "(Optional) Description of what your Lambda Function does"
   type        = string
@@ -127,6 +133,30 @@ variable "iam_role_tags" {
   description = "(Optional, Default: {}) A map of tags to apply to the IAM role"
   type        = map(string)
   nullable    = false
+  default     = {}
+}
+
+variable "create_current_version_allowed_triggers" {
+  description = "Whether to allow triggers on current version of Lambda Function (this will revoke permissions from previous version because Terraform manages only current resources)"
+  type        = bool
+  default     = true
+}
+
+variable "create_unqualified_alias_allowed_triggers" {
+  description = "Whether to allow triggers on unqualified alias pointing to $LATEST version"
+  type        = bool
+  default     = true
+}
+
+variable "allowed_triggers" {
+  description = "Map of allowed triggers to create Lambda permissions"
+  type        = map(any)
+  default     = {}
+}
+
+variable "event_source_mapping" {
+  description = "Map of event source mapping"
+  type        = any
   default     = {}
 }
 
