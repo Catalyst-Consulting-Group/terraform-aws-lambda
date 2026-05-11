@@ -98,6 +98,12 @@ variable "timeout" {
   default     = 3
 }
 
+variable "reserved_concurrent_executions" {
+  description = "(Optional) Amount of reserved concurrent executions for this Lambda function"
+  type        = number
+  default     = -1 // -1 means unreserved
+}
+
 variable "environment" {
   description = "(Optional, Default: {}) A map of environment variables"
   type        = map(string)

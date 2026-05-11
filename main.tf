@@ -33,8 +33,9 @@ resource "aws_lambda_function" "this" {
 
   layers = var.layers
 
-  memory_size = var.memory_size
-  timeout     = var.timeout
+  memory_size                    = var.memory_size
+  timeout                        = var.timeout
+  reserved_concurrent_executions = var.reserved_concurrent_executions
 
   dynamic "environment" {
     for_each = length(var.environment) == 0 ? [] : [true]
