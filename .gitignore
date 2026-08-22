@@ -43,3 +43,8 @@ terraform.rc
 .idea
 
 .DS_Store
+/.vs
+/.vs/slnx.sqlite
+/.vs/terraform-aws-lambda/v17/.wsuo
+/.vs/terraform-aws-lambda/v17/DocumentLayout.json
+/.vs/VSWorkspaceState.json
