@@ -1,7 +1,7 @@
 locals {
   use_image = var.image_uri != null
   use_s3    = var.s3_bucket != null
-  use_zip   = var.zip_file != null
+  use_zip   = var.filename != null
 }
 
 resource "aws_lambda_function" "this" {
@@ -16,8 +16,10 @@ resource "aws_lambda_function" "this" {
   handler = local.use_image ? null : coalesce(var.handler, "bootstrap")
 
   package_type = local.use_image ? "Image" : "Zip"
-  filename     = (local.use_image || local.use_s3) ? null : ( local.use_zip ? var.zip_file : "${path.module}/dummy.zip" )
+  filename     = (local.use_image || local.use_s3) ? null : ( local.use_zip ? var.filename : "${path.module}/dummy.zip" )
   image_uri    = var.image_uri
+
+  source_code_hash = use_zip ? var.source_code_hash : null
 
   dynamic "image_config" {
     for_each = var.image_config == null ? [] : [true]
