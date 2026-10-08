@@ -39,7 +39,7 @@ variable "handler" {
 }
 
 variable "image_uri" {
-  description = "(Optional, Default: null) The URI of a container image in ECR. Conflicts with s3_bucket."
+  description = "(Optional, Default: null) The URI of a container image in ECR. Conflicts with s3_bucket and filename."
   type        = string
   nullable    = true
   default     = null
@@ -57,7 +57,7 @@ variable "image_config" {
 }
 
 variable "s3_bucket" {
-  description = "(Optional, Default: null) The S3 bucket holding the function's deployment package. Conflicts with image_uri."
+  description = "(Optional, Default: null) The S3 bucket holding the function's deployment package. Conflicts with image_uri and filename."
   type        = string
   nullable    = true
   default     = null
@@ -72,6 +72,20 @@ variable "s3_key" {
 
 variable "s3_object_version" {
   description = "(Optional, Default: null) The object version of the deployment package"
+  type        = string
+  nullable    = true
+  default     = null
+}
+
+variable "filename" {
+  description = "(Optional, Default: null) Path to zip deployment package. Conflicts with image_uri and s3_bucket."
+  type        = string
+  nullable    = true
+  default     = null
+}
+
+variable "source_code_hash" {
+  description = "(Optional, Default: null) Hash of the deployment package. Used to detect changes and trigger a Lambda function update."
   type        = string
   nullable    = true
   default     = null
