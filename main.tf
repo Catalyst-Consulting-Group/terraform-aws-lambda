@@ -19,7 +19,7 @@ resource "aws_lambda_function" "this" {
   filename     = (local.use_image || local.use_s3) ? null : ( local.use_zip ? var.filename : "${path.module}/dummy.zip" )
   image_uri    = var.image_uri
 
-  source_code_hash = use_zip ? var.source_code_hash : null
+  source_code_hash = local.use_zip ? var.source_code_hash : null
 
   dynamic "image_config" {
     for_each = var.image_config == null ? [] : [true]
